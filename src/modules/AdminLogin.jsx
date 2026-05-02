@@ -20,13 +20,24 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      // Mock successful login for immediate access
-      localStorage.setItem('adminToken', 'mock-admin-token-123');
-      toast.success('Admin Portal Accessed');
-      // Use window.location for a full refresh to ensure localStorage is picked up
-      window.location.href = '/dashboard';
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        logout();
+        localStorage.setItem('adminToken', data.token);
+        toast.success('Admin Authenticated Successfully');
+        window.location.href = '/dashboard';
+      } else {
+        toast.error(data.message || 'Invalid Credentials');
+      }
     } catch (error) {
-      toast.error('Access failed');
+      toast.error('Server connection failed. Please try again.');
     } finally {
       setLoading(false);
     }
