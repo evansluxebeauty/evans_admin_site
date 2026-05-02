@@ -108,13 +108,17 @@ const AdminLayout = ({ children }) => {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (!token && location.pathname !== '/login') {
-      navigate('/login', { replace: true });
-    } else {
-      setIsAuthed(!!token);
-    }
-    setChecking(false);
+    const checkAuth = () => {
+      const token = localStorage.getItem('adminToken');
+      if (!token && location.pathname !== '/login') {
+        navigate('/login', { replace: true });
+      } else if (token) {
+        setIsAuthed(true);
+      }
+      setChecking(false);
+    };
+
+    checkAuth();
   }, [location.pathname, navigate]);
 
   if (checking) {

@@ -23,7 +23,8 @@ const AdminLogin = () => {
       // Mock successful login for immediate access
       localStorage.setItem('adminToken', 'mock-admin-token-123');
       toast.success('Admin Portal Accessed');
-      navigate('/dashboard');
+      // Use window.location for a full refresh to ensure localStorage is picked up
+      window.location.href = '/dashboard';
     } catch (error) {
       toast.error('Access failed');
     } finally {
