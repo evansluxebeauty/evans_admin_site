@@ -20,7 +20,7 @@ const AdminMobileTopNav = () => {
 
   return (
     <header
-      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center transition-all duration-300 ${
+      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-start px-6 transition-all duration-300 ${
         scrolled
           ? 'bg-white/95 backdrop-blur-xl shadow-sm py-3'
           : 'bg-white/80 backdrop-blur-md py-3.5'
@@ -212,7 +212,7 @@ const AdminLayout = ({ children }) => {
       {/* Main content — pt-16 on mobile (clears mobile top bar), pt-28 on desktop */}
       <main
         className={`flex-1 w-full max-w-7xl mx-auto relative px-6 md:px-12 ${
-          !isLogin ? 'pt-16 md:pt-28 pb-28 md:pb-8' : ''
+          !isLogin ? 'pt-20 md:pt-28 pb-28 md:pb-8' : ''
         }`}
       >
         <Suspense
