@@ -23,26 +23,26 @@ const AdminProductCard = ({ product, onEdit, onToggleVisibility }) => {
         />
 
         {/* Status Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
           {!product.isActive && (
-            <div className="bg-red-500/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+            <div className="bg-red-500/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-tight shadow-md whitespace-nowrap">
               Hidden
             </div>
           )}
           {product.stock === 0 && (
-            <div className="bg-red-600/95 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+            <div className="bg-red-600/95 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-tight shadow-md whitespace-nowrap">
               Out of Stock
             </div>
           )}
           {product.stock > 0 && product.stock < 10 && (
-            <div className="bg-gold-400/90 backdrop-blur-md text-purple-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+            <div className="bg-gold-400/90 backdrop-blur-md text-purple-900 text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-tight shadow-md whitespace-nowrap">
               Low Stock
             </div>
           )}
         </div>
 
         {product.discountPercentage > 0 && (
-          <div className="absolute top-3 right-3 bg-red-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+          <div className="absolute top-2 right-2 bg-red-500/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full shadow-md whitespace-nowrap">
             -{product.discountPercentage}%
           </div>
         )}
