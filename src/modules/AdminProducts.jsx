@@ -201,23 +201,33 @@ const AdminProducts = () => {
         />
       </div>
 
-      {/* Category Pills */}
-      <div className="flex overflow-x-auto no-scrollbar space-x-3 mb-10">
-        <button
-          onClick={() => setSearchQuery('')}
-          className={`whitespace-nowrap px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-widest ${!searchQuery ? 'bg-purple-900 text-white shadow-luxury' : 'bg-white text-gray-500 border border-beige-100 hover:border-purple-200'}`}
-        >
-          All
-        </button>
-        {[...new Set(products.map(p => p.category))].map(cat => (
+      {/* Category Pills — sticky strip, visible on all screens */}
+      <div className="filter-strip sticky top-0 z-10 -mx-6 md:-mx-12 px-6 md:px-12 py-3 mb-6 bg-beige-50/95 backdrop-blur-sm border-b border-beige-100/60">
+        <div className="flex overflow-x-auto no-scrollbar gap-2">
           <button
-            key={cat}
-            onClick={() => setSearchQuery(cat)}
-            className={`whitespace-nowrap px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-widest ${searchQuery === cat ? 'bg-purple-900 text-white shadow-luxury' : 'bg-white text-gray-400 border border-beige-100 hover:border-purple-200'}`}
+            onClick={() => setSearchQuery('')}
+            className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${
+              !searchQuery
+                ? 'bg-purple-900 text-white shadow-luxury'
+                : 'bg-white text-gray-500 border border-beige-200 hover:border-purple-300 hover:text-purple-700'
+            }`}
           >
-            {cat}
+            All
           </button>
-        ))}
+          {[...new Set(products.map(p => p.category))].map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSearchQuery(cat)}
+              className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${
+                searchQuery === cat
+                  ? 'bg-purple-900 text-white shadow-luxury'
+                  : 'bg-white text-gray-400 border border-beige-200 hover:border-purple-300 hover:text-purple-700'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Products Grid */}

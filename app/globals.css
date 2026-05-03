@@ -26,8 +26,8 @@
   }
 
   button, a, .tap-target {
-    min-height: 48px;
-    min-width: 48px;
+    min-height: 44px;
+    min-width: 44px;
     @apply transition-all active:opacity-70 active:scale-95;
   }
 }
@@ -57,5 +57,16 @@
     animation: shimmer 1.5s linear infinite forwards;
     background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
     background-size: 800px 104px;
+  }
+
+  /* Override tap-target min sizes for compact pill filter buttons */
+  .filter-strip button {
+    min-height: 0 !important;
+    min-width: 0 !important;
+  }
+
+  /* iOS safe-area bottom padding for fixed bottom nav / modals */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
   }
 }
