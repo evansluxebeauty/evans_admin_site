@@ -1,3 +1,4 @@
+// v2.1 — single-line category+stock fix
 'use client';
 import React from 'react';
 import { Edit2, Eye, EyeOff, Package } from 'lucide-react';

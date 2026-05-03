@@ -5,6 +5,9 @@ const withPWA = withPWAInit({
   disable: process.env.NODE_ENV === "development",
   register: true,
   skipWaiting: true,
+  cacheOnFrontEndNav: false,
+  fallbackToCache: false,
+  reloadOnOnline: true,
 });
 
 /** @type {import('next').NextConfig} */
