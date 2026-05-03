@@ -69,9 +69,9 @@ const AdminProductCard = ({ product, onEdit, onToggleVisibility }) => {
 
       <div className="px-1 flex flex-col flex-grow justify-between">
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{product.category}</span>
-            <div className="flex items-center space-x-1 text-[10px] font-bold text-purple-400">
+          <div className="flex items-center justify-between gap-1 mb-2 min-w-0">
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest whitespace-nowrap truncate min-w-0">{product.category}</span>
+            <div className="flex items-center gap-0.5 text-[10px] font-bold text-purple-400 flex-shrink-0 whitespace-nowrap">
               <Package size={10} />
               <span>Stock: {product.stock}</span>
             </div>
