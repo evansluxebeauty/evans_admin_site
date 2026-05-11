@@ -1,10 +1,10 @@
 // v2.1 — single-line category+stock fix
 'use client';
 import React from 'react';
-import { Edit2, Eye, EyeOff, Package } from 'lucide-react';
+import { Edit2, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const AdminProductCard = ({ product, onEdit, onToggleVisibility }) => {
+const AdminProductCard = ({ product, onEdit }) => {
   const discountedPrice = product.discountPercentage > 0
     ? product.price - (product.price * (product.discountPercentage / 100))
     : product.price;
@@ -56,14 +56,6 @@ const AdminProductCard = ({ product, onEdit, onToggleVisibility }) => {
             className="bg-white text-purple-900 p-3 rounded-2xl shadow-xl hover:bg-purple-900 hover:text-white transition-all"
           >
             <Edit2 size={20} />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => onToggleVisibility(product)}
-            className={`${product.isActive ? 'bg-white text-green-600' : 'bg-red-500 text-white'} p-3 rounded-2xl shadow-xl transition-all`}
-          >
-            {product.isActive ? <Eye size={20} /> : <EyeOff size={20} />}
           </motion.button>
         </div>
       </div>

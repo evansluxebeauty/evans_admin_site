@@ -13,7 +13,7 @@ const defaultForm = {
   name: '',
   price: '',
   discountPercentage: 0,
-  category: '',
+  category: CATEGORIES[0],
   description: '',
   stock: 0,
   isActive: true,
@@ -33,8 +33,8 @@ const AdminProducts = () => {
   const [lastUsedCategory, setLastUsedCategory] = useState('');
 
   useEffect(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('adminLastCategory') || '' : '';
-    setLastUsedCategory(saved);
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('adminLastCategory') : null;
+    setLastUsedCategory(saved || CATEGORIES[0]);
   }, []);
 
   useEffect(() => { fetchProducts(); }, []);
@@ -56,7 +56,7 @@ const AdminProducts = () => {
   };
 
   const resetForm = () => {
-    setFormData({ ...defaultForm, category: lastUsedCategory });
+    setFormData({ ...defaultForm, category: lastUsedCategory || CATEGORIES[0] });
     setSelectedFiles([]);
     setPreviewUrls([]);
     setEditingProduct(null);
@@ -149,6 +149,22 @@ const AdminProducts = () => {
     }
   };
 
+  const handleDeleteProduct = async (product) => {
+    const token = localStorage.getItem('adminToken');
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/products/${product._id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      if (res.ok) {
+        toast.success('Product deleted successfully');
+        fetchProducts();
+      }
+    } catch {
+      toast.error('Failed to delete product');
+    }
+  };
+
   const toggleVisibility = async (product) => {
     const token = localStorage.getItem('adminToken');
     try {
@@ -206,11 +222,10 @@ const AdminProducts = () => {
         <div className="flex overflow-x-auto no-scrollbar gap-2">
           <button
             onClick={() => setSearchQuery('')}
-            className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${
-              !searchQuery
+            className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${!searchQuery
                 ? 'bg-purple-900 text-white shadow-luxury'
                 : 'bg-white text-gray-500 border border-beige-200 hover:border-purple-300 hover:text-purple-700'
-            }`}
+              }`}
           >
             All
           </button>
@@ -218,11 +233,10 @@ const AdminProducts = () => {
             <button
               key={cat}
               onClick={() => setSearchQuery(cat)}
-              className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${
-                searchQuery === cat
+              className={`!min-h-0 !min-w-0 flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[11px] font-black transition-all uppercase tracking-widest ${searchQuery === cat
                   ? 'bg-purple-900 text-white shadow-luxury'
                   : 'bg-white text-gray-400 border border-beige-200 hover:border-purple-300 hover:text-purple-700'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -248,7 +262,7 @@ const AdminProducts = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >
-              <AdminProductCard product={product} onEdit={openEditModal} onToggleVisibility={toggleVisibility} />
+              <AdminProductCard product={product} onEdit={openEditModal} />
             </motion.div>
           ))}
           {filteredProducts.length === 0 && (
@@ -366,7 +380,6 @@ const AdminProducts = () => {
                         required
                         className={inputClass}
                       >
-                        <option value="">Select a category</option>
                         {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
@@ -403,16 +416,14 @@ const AdminProducts = () => {
                     <div>
                       <label className={labelClass}>Stock Management</label>
                       {/* Current stock display */}
-                      <div className={`mb-3 flex items-center justify-between px-5 py-3 rounded-2xl ${
-                        formData.stock === 0 ? 'bg-red-50 border border-red-200' :
-                        formData.stock < 10 ? 'bg-amber-50 border border-amber-200' :
-                        'bg-green-50 border border-green-200'
-                      }`}>
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-600">Current Stock</span>
-                        <span className={`text-xl font-black ${
-                          formData.stock === 0 ? 'text-red-600' :
-                          formData.stock < 10 ? 'text-amber-600' : 'text-green-700'
+                      <div className={`mb-3 flex items-center justify-between px-5 py-3 rounded-2xl ${formData.stock === 0 ? 'bg-red-50 border border-red-200' :
+                          formData.stock < 10 ? 'bg-amber-50 border border-amber-200' :
+                            'bg-green-50 border border-green-200'
                         }`}>
+                        <span className="text-xs font-black uppercase tracking-widest text-gray-600">Current Stock</span>
+                        <span className={`text-xl font-black ${formData.stock === 0 ? 'text-red-600' :
+                            formData.stock < 10 ? 'text-amber-600' : 'text-green-700'
+                          }`}>
                           {formData.stock} units
                           {formData.stock === 0 && <span className="text-[10px] ml-2 uppercase tracking-widest">● Out of Stock</span>}
                           {formData.stock > 0 && formData.stock < 10 && <span className="text-[10px] ml-2 uppercase tracking-widest">● Low</span>}
@@ -501,21 +512,38 @@ const AdminProducts = () => {
                 </div>
 
                 {/* Modal Footer */}
-                <div className="px-6 sm:px-10 py-5 sm:py-6 border-t border-beige-100 bg-beige-50/50 flex gap-3 sm:gap-4 flex-shrink-0 pb-safe">
-                  <button
-                    type="button"
-                    onClick={() => { setIsModalOpen(false); resetForm(); }}
-                    className="flex-1 border-2 border-beige-200 text-gray-500 font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-beige-100 transition-colors text-xs sm:text-sm"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="flex-[1.3] bg-purple-900 text-white font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-purple-800 transition-colors shadow-luxury text-xs sm:text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {submitting ? 'Saving...' : editingProduct ? '✓ Save Changes' : '+ Add Product'}
-                  </button>
+                <div className="px-6 sm:px-10 py-5 sm:py-6 border-t border-beige-100 bg-beige-50/50 flex gap-3 sm:gap-4 flex-shrink-0 pb-safe items-center">
+                  {editingProduct && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm('Are you sure you want to delete this product?')) {
+                          handleDeleteProduct(editingProduct);
+                          setIsModalOpen(false);
+                          resetForm();
+                        }
+                      }}
+                      className="flex-none text-red-500 font-bold py-3.5 sm:py-4 px-4 rounded-2xl hover:bg-red-50 transition-colors text-xs sm:text-sm"
+                    >
+                      Delete
+                    </button>
+                  )}
+                  <div className="flex flex-1 gap-3 sm:gap-4">
+                    <button
+                      type="button"
+                      onClick={() => { setIsModalOpen(false); resetForm(); }}
+                      className="flex-1 border-2 border-beige-200 text-gray-500 font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-beige-100 transition-colors text-xs sm:text-sm"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="flex-[1.3] bg-purple-900 text-white font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-purple-800 transition-colors shadow-luxury text-xs sm:text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {submitting ? 'Saving...' : editingProduct ? '✓ Save Changes' : '+ Add Product'}
+                    </button>
+                  </div>
                 </div>
               </form>
             </motion.div>
