@@ -162,7 +162,8 @@ const AdminOrders = () => {
 
       {/* Full Sheet Detail Modal */}
       <AnimatePresence>
-        {selectedOrder &&           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center sm:p-4">
+        {selectedOrder && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center sm:p-4">
              <motion.div 
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
