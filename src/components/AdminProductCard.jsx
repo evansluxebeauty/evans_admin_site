@@ -76,11 +76,11 @@ const AdminProductCard = ({ product, onEdit }) => {
 
         <div className="flex items-center justify-between mt-auto pt-2">
           <div className="flex flex-row items-center space-x-2 flex-wrap">
-            <span className="font-sans font-extrabold text-lg text-gray-900 whitespace-nowrap">
+            <span className="font-numbers font-extrabold text-lg text-gray-900 whitespace-nowrap">
               ₹{discountedPrice.toLocaleString('en-IN')}
             </span>
             {product.discountPercentage > 0 && (
-              <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">₹{product.price.toLocaleString('en-IN')}</span>
+              <span className="font-numbers text-[10px] text-gray-400 line-through whitespace-nowrap">₹{product.price.toLocaleString('en-IN')}</span>
             )}
           </div>
           <button

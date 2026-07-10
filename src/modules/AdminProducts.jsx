@@ -287,7 +287,7 @@ const AdminProducts = () => {
               <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-20">
                 <div>
                   <h2 className="font-sans text-xl font-bold text-gray-900">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
-                  {editingProduct && <p className="text-gray-500 text-xs font-medium mt-0.5">ID: {editingProduct._id}</p>}
+                  {editingProduct && <p className="font-numbers text-gray-500 text-xs font-medium mt-0.5">ID: {editingProduct._id}</p>}
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
@@ -388,7 +388,7 @@ const AdminProducts = () => {
                           onChange={e => setFormData(f => ({ ...f, price: e.target.value }))}
                           required
                           placeholder="499"
-                          className={inputClass}
+                          className={`${inputClass} font-numbers`}
                         />
                       </div>
                       <div>
@@ -400,7 +400,7 @@ const AdminProducts = () => {
                           value={formData.discountPercentage}
                           onChange={e => setFormData(f => ({ ...f, discountPercentage: e.target.value }))}
                           placeholder="10"
-                          className={inputClass}
+                          className={`${inputClass} font-numbers`}
                         />
                       </div>
                     </div>
@@ -421,7 +421,7 @@ const AdminProducts = () => {
                             min="0"
                             value={formData.stock}
                             onChange={e => setFormData(f => ({ ...f, stock: Math.max(0, Number(e.target.value)) }))}
-                            className={`${inputClass} text-center text-lg font-black bg-white shadow-inner border-beige-200`}
+                            className={`${inputClass} font-numbers text-center text-lg font-black bg-white shadow-inner border-beige-200`}
                         />
                         <button
                           type="button"

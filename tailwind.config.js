@@ -45,6 +45,7 @@ export default {
       fontFamily: {
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        numbers: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         '3xl': '1.5rem',

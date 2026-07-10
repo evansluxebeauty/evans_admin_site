@@ -88,7 +88,7 @@ const AdminDashboard = () => {
               <stat.icon className={stat.color} size={18} />
             </div>
             <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">{stat.name}</p>
-            <h3 className="text-lg font-black text-purple-900">{stat.value}</h3>
+            <h3 className="font-numbers text-lg font-black text-purple-900">{stat.value}</h3>
           </motion.div>
         ))}
       </div>
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-wider text-red-600">Out of Stock</p>
-                <p className="font-bold text-red-800 text-sm">{stats.outOfStock} Product{stats.outOfStock !== 1 ? 's' : ''}</p>
+                <p className="font-numbers font-bold text-red-800 text-sm">{stats.outOfStock} <span className="font-sans">Product{stats.outOfStock !== 1 ? 's' : ''}</span></p>
               </div>
               <ArrowUpRight size={16} className="text-red-400 ml-auto" />
             </Link>
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-wider text-amber-600">Low Stock</p>
-                <p className="font-bold text-amber-800 text-sm">{stats.lowStock} Product{stats.lowStock !== 1 ? 's' : ''} &lt; 10</p>
+                <p className="font-numbers font-bold text-amber-800 text-sm">{stats.lowStock} <span className="font-sans">Product{stats.lowStock !== 1 ? 's' : ''} &lt; 10</span></p>
               </div>
               <ArrowUpRight size={16} className="text-amber-400 ml-auto" />
             </Link>

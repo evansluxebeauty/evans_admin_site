@@ -110,7 +110,7 @@ const AdminOrders = () => {
                 <div className="flex justify-between items-start md:w-1/3">
                     <div>
                         <p className="text-[10px] font-bold uppercase text-gray-400 mb-0.5">Order ID</p>
-                        <h3 className="font-sans font-bold text-gray-900">#{order._id.slice(-8).toUpperCase()}</h3>
+                        <h3 className="font-numbers font-bold text-gray-900">#{order._id.slice(-8).toUpperCase()}</h3>
                     </div>
                     <div className="md:hidden">
                         <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusMap[order.orderStatus]?.bg} ${statusMap[order.orderStatus]?.text}`}>
@@ -132,7 +132,7 @@ const AdminOrders = () => {
                         </div>
                         <div>
                             <p className="text-[10px] font-bold uppercase text-gray-400 mb-0.5">Total</p>
-                            <p className="text-base font-bold text-purple-900">₹{order.totalAmount.toLocaleString()}</p>
+                            <p className="font-numbers text-base font-bold text-purple-900">₹{order.totalAmount.toLocaleString()}</p>
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ const AdminOrders = () => {
                   <div className="p-5 border-b border-gray-200 bg-white flex justify-between items-center sticky top-0 z-10">
                     <div>
                         <h2 className="font-sans text-xl font-bold text-gray-900">Order Details</h2>
-                        <p className="text-gray-500 text-xs font-medium mt-0.5">ID: {selectedOrder._id}</p>
+                        <p className="font-numbers text-gray-500 text-xs font-medium mt-0.5">ID: {selectedOrder._id}</p>
                     </div>
                     <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-all">
                         <X size={18} />
@@ -217,7 +217,7 @@ const AdminOrders = () => {
                             </div>
                             <div className="flex items-center space-x-3">
                                 <Phone size={18} className="text-gray-400" />
-                                <p className="text-sm font-bold text-gray-900">{selectedOrder.shippingAddress.phone}</p>
+                                <p className="font-numbers text-sm font-bold text-gray-900">{selectedOrder.shippingAddress.phone}</p>
                             </div>
                         </div>
                     </div>
@@ -230,9 +230,9 @@ const AdminOrders = () => {
                                 <div key={i} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
                                     <div className="flex-1 pr-4">
                                         <p className="font-bold text-sm text-gray-900 line-clamp-1">{item.name}</p>
-                                        <p className="text-xs font-medium text-gray-500 mt-0.5">Qty: {item.quantity} × ₹{item.price}</p>
+                                        <p className="font-numbers text-xs font-medium text-gray-500 mt-0.5">Qty: {item.quantity} × ₹{item.price}</p>
                                     </div>
-                                    <p className="font-bold text-gray-900 whitespace-nowrap">₹{item.price * item.quantity}</p>
+                                    <p className="font-numbers font-bold text-gray-900 whitespace-nowrap">₹{item.price * item.quantity}</p>
                                 </div>
                             ))}
                         </div>
@@ -247,7 +247,7 @@ const AdminOrders = () => {
                       </div>
                       <div className="text-right">
                           <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Total Amount</p>
-                          <p className="text-2xl font-black text-gray-900">₹{selectedOrder.totalAmount.toLocaleString()}</p>
+                          <p className="font-numbers text-2xl font-black text-gray-900">₹{selectedOrder.totalAmount.toLocaleString()}</p>
                       </div>
                   </div>
               </motion.div>

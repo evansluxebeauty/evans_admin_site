@@ -1,11 +1,11 @@
 import './globals.css';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Playfair_Display, Outfit } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['300', '400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 const playfair = Playfair_Display({
@@ -13,6 +13,13 @@ const playfair = Playfair_Display({
   display: 'swap',
   variable: '--font-playfair',
   weight: ['400', '600', '700'],
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata = {
@@ -30,7 +37,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable}`}>
       <head>
         <meta name="theme-color" content="#5A2A6C" />
         <meta name="mobile-web-app-capable" content="yes" />
