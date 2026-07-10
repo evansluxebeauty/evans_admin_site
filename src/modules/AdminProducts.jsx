@@ -264,42 +264,40 @@ const AdminProducts = () => {
             >
               <AdminProductCard product={product} onEdit={openEditModal} />
             </motion.div>
-          ))}
-          {filteredProducts.length === 0 && (
-            <div className="col-span-full text-center py-20 text-gray-400 font-medium">
-              No products found. Try a different search or <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="text-purple-600 underline">add a new one</button>.
-            </div>
-          )}
-        </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mt-6">
+          <AnimatePresence>
+            {filtered.map(product => (
+              <AdminProductCard
+                key={product._id}
+                product={product}
+                onEdit={openEditModal}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
       )}
 
-      {/* ── FULL PRODUCT MODAL ── */}
+      {/* Modern Full Sheet Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 bg-purple-900/40 backdrop-blur-md z-[100] flex items-end sm:items-center justify-center sm:p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center sm:p-4">
             <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 50, scale: 0.95 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="bg-white w-full max-w-5xl rounded-t-[2.5rem] sm:rounded-[3rem] shadow-2xl overflow-hidden h-[95vh] sm:h-auto sm:max-h-[92vh] flex flex-col"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-white w-full max-w-4xl rounded-t-3xl md:rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
             >
-              {/* Modal Header */}
-              <div className="px-6 sm:px-10 py-5 sm:py-7 border-b border-beige-100 flex justify-between items-center flex-shrink-0">
+              <div className="p-5 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-20">
                 <div>
-                  <h2 className="font-serif text-xl sm:text-2xl font-bold text-purple-900">
-                    {editingProduct ? 'Edit Product' : 'Add New Product'}
-                  </h2>
-                  <p className="text-[10px] sm:text-xs text-gray-400 font-semibold mt-0.5 uppercase tracking-widest">
-                    {editingProduct ? 'Changes sync instantly to guest storefront' : 'Will appear on storefront after saving'}
-                  </p>
+                  <h2 className="font-sans text-xl font-bold text-gray-900">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
+                  {editingProduct && <p className="text-gray-500 text-xs font-medium mt-0.5">ID: {editingProduct._id}</p>}
                 </div>
                 <button
-                  type="button"
-                  onClick={() => { setIsModalOpen(false); resetForm(); }}
-                  className="w-10 h-10 bg-beige-50 rounded-full flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-all flex-shrink-0 ml-4"
+                  onClick={() => setIsModalOpen(false)}
+                  className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-all flex-shrink-0"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
 
@@ -358,7 +356,6 @@ const AdminProducts = () => {
 
                   {/* ─── RIGHT: All Details ─── */}
                   <div className="space-y-5">
-
                     {/* Name */}
                     <div>
                       <label className={labelClass}>Product Name *</label>
@@ -415,21 +412,6 @@ const AdminProducts = () => {
                     {/* Stock Management */}
                     <div>
                       <label className={labelClass}>Stock Management</label>
-                      {/* Current stock display */}
-                      <div className={`mb-3 flex items-center justify-between px-5 py-3 rounded-2xl ${formData.stock === 0 ? 'bg-red-50 border border-red-200' :
-                          formData.stock < 10 ? 'bg-amber-50 border border-amber-200' :
-                            'bg-green-50 border border-green-200'
-                        }`}>
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-600">Current Stock</span>
-                        <span className={`text-xl font-black ${formData.stock === 0 ? 'text-red-600' :
-                            formData.stock < 10 ? 'text-amber-600' : 'text-green-700'
-                          }`}>
-                          {formData.stock} units
-                          {formData.stock === 0 && <span className="text-[10px] ml-2 uppercase tracking-widest">● Out of Stock</span>}
-                          {formData.stock > 0 && formData.stock < 10 && <span className="text-[10px] ml-2 uppercase tracking-widest">● Low</span>}
-                        </span>
-                      </div>
-                      {/* Live stock count and adjustment */}
                       <div className="flex items-center gap-4">
                         <button
                           type="button"
@@ -438,18 +420,13 @@ const AdminProducts = () => {
                         >
                           <MinusCircle size={22} />
                         </button>
-                        <div className="flex-1 relative">
-                          <input
+                        <input
                             type="number"
                             min="0"
                             value={formData.stock}
                             onChange={e => setFormData(f => ({ ...f, stock: Math.max(0, Number(e.target.value)) }))}
                             className={`${inputClass} text-center text-lg font-black bg-white shadow-inner border-beige-200`}
-                          />
-                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-purple-900 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">
-                            Available Units
-                          </div>
-                        </div>
+                        />
                         <button
                           type="button"
                           onClick={() => setFormData(f => ({ ...f, stock: Number(f.stock) + 1 }))}
@@ -511,39 +488,21 @@ const AdminProducts = () => {
                   </div>
                 </div>
 
-                {/* Modal Footer */}
-                <div className="px-6 sm:px-10 py-5 sm:py-6 border-t border-beige-100 bg-beige-50/50 flex gap-3 sm:gap-4 flex-shrink-0 pb-safe items-center">
-                  {editingProduct && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (window.confirm('Are you sure you want to delete this product?')) {
-                          handleDeleteProduct(editingProduct);
-                          setIsModalOpen(false);
-                          resetForm();
-                        }
-                      }}
-                      className="flex-none text-red-500 font-bold py-3.5 sm:py-4 px-4 rounded-2xl hover:bg-red-50 transition-colors text-xs sm:text-sm"
-                    >
-                      Delete
-                    </button>
-                  )}
-                  <div className="flex flex-1 gap-3 sm:gap-4">
-                    <button
-                      type="button"
-                      onClick={() => { setIsModalOpen(false); resetForm(); }}
-                      className="flex-1 border-2 border-beige-200 text-gray-500 font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-beige-100 transition-colors text-xs sm:text-sm"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="flex-[1.3] bg-purple-900 text-white font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-purple-800 transition-colors shadow-luxury text-xs sm:text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      {submitting ? 'Saving...' : editingProduct ? '✓ Save Changes' : '+ Add Product'}
-                    </button>
-                  </div>
+                <div className="p-5 border-t border-gray-200 bg-gray-50 flex justify-end gap-3 sticky bottom-0 z-20">
+                  <button
+                    type="button"
+                    onClick={() => { setIsModalOpen(false); resetForm(); }}
+                    className="px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-500 hover:bg-gray-200 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="px-6 py-2.5 bg-purple-900 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-purple-800 transition-all disabled:opacity-50"
+                  >
+                    {submitting ? 'Saving...' : (editingProduct ? 'Update Product' : 'Add Product')}
+                  </button>
                 </div>
               </form>
             </motion.div>

@@ -20,10 +20,10 @@ const AdminMobileTopNav = () => {
 
   return (
     <header
-      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-start px-6 transition-all duration-300 ${
+      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-start px-4 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-xl shadow-sm py-3'
-          : 'bg-white/80 backdrop-blur-md py-3.5'
+          ? 'bg-white shadow-[0_2px_20px_rgba(88,28,135,0.12)] border-b border-purple-50 py-2'
+          : 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-purple-50/60 py-3'
       }`}
     >
       <Link to="/dashboard" className="flex items-center gap-3 group">
@@ -80,8 +80,8 @@ const AdminTopNav = () => {
     <header
       className={`hidden md:flex fixed top-0 w-full z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-md py-3'
-          : 'bg-white/60 backdrop-blur-md py-5'
+          ? 'bg-white shadow-[0_2px_20px_rgba(88,28,135,0.12)] border-b border-purple-50 py-3'
+          : 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-purple-50/60 py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">

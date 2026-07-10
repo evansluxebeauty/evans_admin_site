@@ -98,38 +98,44 @@ const AdminOrders = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-6"
+          className="space-y-4"
         >
           {orders.map((order) => (
             <motion.div 
                 key={order._id}
                 variants={itemVariants}
                 onClick={() => setSelectedOrder(order)}
-                className="bg-white rounded-[2.5rem] p-6 shadow-luxury border border-beige-100 hover:border-purple-200 transition-all cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:border-purple-200 transition-all cursor-pointer relative overflow-hidden flex flex-col md:flex-row md:items-center gap-4"
             >
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start md:w-1/3">
                     <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Queue ID</p>
-                        <h3 className="font-sans font-black text-purple-900">#{order._id.slice(-6).toUpperCase()}</h3>
+                        <p className="text-[10px] font-bold uppercase text-gray-400 mb-0.5">Order ID</p>
+                        <h3 className="font-sans font-bold text-gray-900">#{order._id.slice(-8).toUpperCase()}</h3>
                     </div>
-                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${statusMap[order.orderStatus]?.bg} ${statusMap[order.orderStatus]?.text}`}>
-                        {statusMap[order.orderStatus]?.label}
-                    </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 items-end">
-                    <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Customer</p>
-                        <p className="font-bold text-sm text-gray-800 whitespace-nowrap truncate">{order.shippingAddress.name}</p>
-                    </div>
-                    <div className="text-right">
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Value</p>
-                        <p className="text-lg font-sans font-black text-purple-900 whitespace-nowrap">₹{order.totalAmount.toLocaleString()}</p>
+                    <div className="md:hidden">
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusMap[order.orderStatus]?.bg} ${statusMap[order.orderStatus]?.text}`}>
+                            {statusMap[order.orderStatus]?.label}
+                        </span>
                     </div>
                 </div>
 
-                {/* Hover Indicator */}
-                <div className="absolute right-0 top-0 h-full w-1 bg-purple-900 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="flex justify-between items-center md:w-2/3">
+                    <div>
+                        <p className="text-[10px] font-bold uppercase text-gray-400 mb-0.5">Customer</p>
+                        <p className="font-bold text-sm text-gray-800 line-clamp-1">{order.shippingAddress.name}</p>
+                    </div>
+                    <div className="text-right flex items-center gap-4">
+                        <div className="hidden md:block">
+                            <span className={`px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusMap[order.orderStatus]?.bg} ${statusMap[order.orderStatus]?.text}`}>
+                                {statusMap[order.orderStatus]?.label}
+                            </span>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-bold uppercase text-gray-400 mb-0.5">Total</p>
+                            <p className="text-base font-bold text-purple-900">₹{order.totalAmount.toLocaleString()}</p>
+                        </div>
+                    </div>
+                </div>
             </motion.div>
           ))}
         </motion.div>
@@ -156,92 +162,95 @@ const AdminOrders = () => {
 
       {/* Full Sheet Detail Modal */}
       <AnimatePresence>
-        {selectedOrder && (
-          <div className="fixed inset-0 bg-purple-900/10 backdrop-blur-2xl z-[100] flex items-end md:items-center justify-center p-4">
+        {selectedOrder &&           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center sm:p-4">
              <motion.div 
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="bg-white w-full max-w-2xl rounded-t-[4rem] md:rounded-[4rem] shadow-luxury overflow-hidden max-h-[90vh] flex flex-col"
+                className="bg-gray-50 w-full max-w-2xl rounded-t-3xl md:rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
               >
-                  <div className="p-10 border-b border-beige-50 flex justify-between items-center">
+                  <div className="p-5 border-b border-gray-200 bg-white flex justify-between items-center sticky top-0 z-10">
                     <div>
-                        <h2 className="font-serif text-3xl font-bold text-purple-900">Order Management</h2>
-                        <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mt-1">Ref ID: {selectedOrder._id}</p>
+                        <h2 className="font-sans text-xl font-bold text-gray-900">Order Details</h2>
+                        <p className="text-gray-500 text-xs font-medium mt-0.5">ID: {selectedOrder._id}</p>
                     </div>
-                    <button onClick={() => setSelectedOrder(null)} className="w-12 h-12 bg-beige-50 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-all">
-                        <X size={24} />
+                    <button onClick={() => setSelectedOrder(null)} className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-all">
+                        <X size={18} />
                     </button>
                   </div>
 
-                  <div className="flex-grow overflow-y-auto p-10 space-y-10 custom-scrollbar">
+                  <div className="flex-grow overflow-y-auto p-4 sm:p-6 space-y-6 custom-scrollbar">
+                    
+                    {/* Status Update Grid */}
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Update Status</h4>
+                         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                            {Object.keys(statusMap).map(status => (
+                                <button 
+                                    key={status}
+                                    onClick={() => updateStatus(selectedOrder._id, status)}
+                                    className={`py-2 px-2 rounded-lg text-[10px] sm:text-xs font-bold uppercase transition-all border ${
+                                        selectedOrder.orderStatus === status 
+                                        ? 'bg-purple-900 text-white border-purple-900 shadow-md' 
+                                        : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                                    }`}
+                                >
+                                    {statusMap[status].label}
+                                </button>
+                            ))}
+                         </div>
+                    </div>
+
+                    {/* Coordinates & Shipping */}
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Shipping Info</h4>
+                        <div className="space-y-3">
+                            <div className="flex items-start space-x-3">
+                                <MapPin size={18} className="text-gray-400 mt-0.5" />
+                                <p className="text-sm font-medium text-gray-700 leading-snug">
+                                    <span className="font-bold text-gray-900 block mb-1">{selectedOrder.shippingAddress.name}</span>
+                                    {selectedOrder.shippingAddress.address},<br/>
+                                    {selectedOrder.shippingAddress.city} - {selectedOrder.shippingAddress.pincode}
+                                </p>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                                <Phone size={18} className="text-gray-400" />
+                                <p className="text-sm font-bold text-gray-900">{selectedOrder.shippingAddress.phone}</p>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Items Section */}
-                    <div className="space-y-4">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-900/40">Manifest Items</h4>
-                        {selectedOrder.items.map((item, i) => (
-                            <div key={i} className="flex justify-between items-center p-5 bg-beige-50/50 rounded-3xl border border-beige-100/30">
-                                <div>
-                                    <p className="font-bold text-sm text-gray-800 line-clamp-2">{item.name}</p>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">{item.quantity} Unit(s) • ₹{item.price}</p>
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Items ({selectedOrder.items.length})</h4>
+                        <div className="space-y-3">
+                            {selectedOrder.items.map((item, i) => (
+                                <div key={i} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                                    <div className="flex-1 pr-4">
+                                        <p className="font-bold text-sm text-gray-900 line-clamp-1">{item.name}</p>
+                                        <p className="text-xs font-medium text-gray-500 mt-0.5">Qty: {item.quantity} × ₹{item.price}</p>
+                                    </div>
+                                    <p className="font-bold text-gray-900 whitespace-nowrap">₹{item.price * item.quantity}</p>
                                 </div>
-                                <p className="font-sans font-black text-purple-900 whitespace-nowrap">₹{item.price * item.quantity}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Meta Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                        <div className="space-y-4">
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-900/40">Coordinates</h4>
-                            <div className="space-y-3">
-                                <div className="flex items-start space-x-3">
-                                    <MapPin size={16} className="text-purple-400 mt-1" />
-                                    <p className="text-sm font-medium text-gray-600 leading-relaxed">
-                                        {selectedOrder.shippingAddress.address},<br/>
-                                        {selectedOrder.shippingAddress.city} - {selectedOrder.shippingAddress.pincode}
-                                    </p>
-                                </div>
-                                <div className="flex items-center space-x-3">
-                                    <Phone size={16} className="text-purple-400" />
-                                    <p className="text-sm font-bold text-gray-800 whitespace-nowrap">{selectedOrder.shippingAddress.phone}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-900/40">Current Status</h4>
-                             <div className="grid grid-cols-2 gap-2">
-                                {Object.keys(statusMap).map(status => (
-                                    <button 
-                                        key={status}
-                                        onClick={() => updateStatus(selectedOrder._id, status)}
-                                        className={`py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                                            selectedOrder.orderStatus === status 
-                                            ? 'bg-purple-900 text-white shadow-lg' 
-                                            : 'bg-beige-50 text-gray-400 hover:bg-beige-100'
-                                        }`}
-                                    >
-                                        {status}
-                                    </button>
-                                ))}
-                             </div>
-                        </div>
-                    </div>
-
-                    <div className="pt-8 border-t border-beige-50 flex justify-between items-center">
-                        <div className="flex items-center space-x-3 text-green-600">
-                             <CreditCard size={20} />
-                             <span className="text-xs font-black uppercase tracking-widest">Transaction Verified</span>
-                        </div>
-                        <div className="text-right">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Final Manifest</p>
-                            <p className="text-2xl sm:text-4xl font-sans font-black text-purple-900 whitespace-nowrap">₹{selectedOrder.totalAmount.toLocaleString()}</p>
+                            ))}
                         </div>
                     </div>
                   </div>
-             </motion.div>
-          </div>
+                  
+                  {/* Footer Total */}
+                  <div className="p-5 border-t border-gray-200 bg-white flex justify-between items-center sticky bottom-0 z-10">
+                      <div className="flex items-center space-x-2 text-green-600 bg-green-50 px-3 py-1.5 rounded-md">
+                           <CreditCard size={16} />
+                           <span className="text-[10px] font-bold uppercase tracking-wider">Paid Online</span>
+                      </div>
+                      <div className="text-right">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-0.5">Total Amount</p>
+                          <p className="text-2xl font-black text-gray-900">₹{selectedOrder.totalAmount.toLocaleString()}</p>
+                      </div>
+                  </div>
+              </motion.div>
+          </div>    </div>
         )}
       </AnimatePresence>
     </div>

@@ -11,11 +11,11 @@ const AdminProductCard = ({ product, onEdit }) => {
 
   return (
     <motion.div
-      whileHover={{ y: -6, scale: 1.02 }}
+      whileHover={{ y: -4, scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
-      className="bg-white rounded-[2.5rem] p-4 shadow-luxury hover:shadow-2xl transition-all duration-500 relative group h-full flex flex-col justify-between border border-beige-100/50"
+      className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-300 relative group h-full flex flex-col justify-between border border-gray-100"
     >
-      <div className="relative rounded-[2rem] overflow-hidden aspect-square mb-4 bg-beige-50">
+      <div className="relative rounded-xl overflow-hidden aspect-square mb-3 bg-gray-50">
         <img
           src={product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.png'}
           alt={product.name}

@@ -82,13 +82,13 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-6 shadow-luxury border border-beige-100/50 flex flex-col items-center text-center group"
+            className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm border border-purple-50 flex flex-col items-center text-center group transition-all hover:shadow-md"
           >
-            <div className={`w-12 h-12 ${stat.bg} rounded-2xl flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500`}>
-              <stat.icon className={stat.color} size={22} />
+            <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+              <stat.icon className={stat.color} size={18} />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{stat.name}</p>
-            <h3 className="text-xl font-sans font-black text-purple-900">{stat.value}</h3>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">{stat.name}</p>
+            <h3 className="text-lg font-black text-purple-900">{stat.value}</h3>
           </motion.div>
         ))}
       </div>
@@ -104,31 +104,31 @@ const AdminDashboard = () => {
           {stats.outOfStock > 0 && (
             <Link
               to="/products"
-              className="flex-1 flex items-center space-x-4 bg-red-50 border border-red-200 rounded-[2rem] px-6 py-4 hover:bg-red-100 transition-all group"
+              className="flex-1 flex items-center space-x-3 bg-red-50 border border-red-100 rounded-2xl px-4 py-3 hover:bg-red-100 transition-all group"
             >
-              <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <XCircle size={20} className="text-red-600" />
+              <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <XCircle size={16} className="text-red-600" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-red-600">Out of Stock Alert</p>
-                <p className="font-black text-red-800 text-lg">{stats.outOfStock} Product{stats.outOfStock !== 1 ? 's' : ''}</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider text-red-600">Out of Stock</p>
+                <p className="font-bold text-red-800 text-sm">{stats.outOfStock} Product{stats.outOfStock !== 1 ? 's' : ''}</p>
               </div>
-              <ArrowUpRight size={18} className="text-red-400 ml-auto" />
+              <ArrowUpRight size={16} className="text-red-400 ml-auto" />
             </Link>
           )}
           {stats.lowStock > 0 && (
             <Link
               to="/products"
-              className="flex-1 flex items-center space-x-4 bg-amber-50 border border-amber-200 rounded-[2rem] px-6 py-4 hover:bg-amber-100 transition-all group"
+              className="flex-1 flex items-center space-x-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3 hover:bg-amber-100 transition-all group"
             >
-              <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <AlertTriangle size={20} className="text-amber-600" />
+              <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <AlertTriangle size={16} className="text-amber-600" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-amber-600">Low Stock Warning</p>
-                <p className="font-black text-amber-800 text-lg">{stats.lowStock} Product{stats.lowStock !== 1 ? 's' : ''} &lt; 10 units</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider text-amber-600">Low Stock</p>
+                <p className="font-bold text-amber-800 text-sm">{stats.lowStock} Product{stats.lowStock !== 1 ? 's' : ''} &lt; 10</p>
               </div>
-              <ArrowUpRight size={18} className="text-amber-400 ml-auto" />
+              <ArrowUpRight size={16} className="text-amber-400 ml-auto" />
             </Link>
           )}
         </motion.div>
@@ -138,15 +138,15 @@ const AdminDashboard = () => {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-purple-900 rounded-[3.5rem] p-10 text-white shadow-2xl relative overflow-hidden group"
+          className="bg-purple-900 rounded-3xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden group"
         >
-          <div className="absolute top-0 right-0 w-48 h-48 bg-gold-400/10 rounded-full blur-3xl -mr-10 -mt-10 group-hover:scale-110 transition-transform duration-1000" />
-          <Sparkles className="text-gold-300 mb-6" size={32} />
-          <h2 className="font-serif text-3xl font-bold mb-4 italic">Botanical Ecosystem</h2>
-          <p className="text-purple-100/70 text-sm leading-relaxed mb-8 font-medium">The Evans Luxe ecosystem is performing at optimal efficiency. All botanical extracts are synced with Cloudinary servers and ready for distribution.</p>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gold-400/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:scale-110 transition-transform duration-1000" />
+          <Sparkles className="text-gold-300 mb-4" size={24} />
+          <h2 className="font-serif text-2xl font-bold mb-3 italic">Botanical Ecosystem</h2>
+          <p className="text-purple-100/80 text-xs md:text-sm leading-relaxed mb-6 font-medium">The Evans Luxe ecosystem is performing at optimal efficiency. All botanical extracts are synced and ready for distribution.</p>
           <button 
             onClick={() => window.location.hash = '#/products'}
-            className="bg-gold-400 text-purple-900 px-8 py-4 rounded-2xl text-xs font-bold uppercase tracking-widest shadow-lg hover:bg-gold-300 hover:translate-x-1 transition-all"
+            className="bg-gold-400 text-purple-900 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow hover:bg-gold-300 transition-all"
           >
             Manage Inventory
           </button>
