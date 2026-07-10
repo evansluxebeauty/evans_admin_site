@@ -264,17 +264,13 @@ const AdminProducts = () => {
             >
               <AdminProductCard product={product} onEdit={openEditModal} />
             </motion.div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mt-6">
-          <AnimatePresence>
-            {filtered.map(product => (
-              <AdminProductCard
-                key={product._id}
-                product={product}
-                onEdit={openEditModal}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+          ))}
+          {filteredProducts.length === 0 && (
+            <div className="col-span-full text-center py-20 text-gray-400 font-medium">
+              No products found. Try a different search or <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="text-purple-600 underline">add a new one</button>.
+            </div>
+          )}
+        </motion.div>
       )}
 
       {/* Modern Full Sheet Modal */}

@@ -250,7 +250,7 @@ const AdminOrders = () => {
                       </div>
                   </div>
               </motion.div>
-          </div>    </div>
+          </div>
         )}
       </AnimatePresence>
     </div>
