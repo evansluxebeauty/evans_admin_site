@@ -1,7 +1,7 @@
 'use client';
 import API_BASE_URL from '@/config/api';
 import React, { useState, useEffect } from 'react';
-import { Shield, Key, Mail, Save, LogOut, Settings, Truck, User, Package, ShoppingBag, LayoutDashboard, ChevronRight } from 'lucide-react';
+import { Shield, Key, Mail, Save, LogOut, Settings, Truck, User, Package, ShoppingBag, ChevronRight, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from '@/router-shim';
 
@@ -21,6 +21,11 @@ const AdminProfile = () => {
   });
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('general');
+
+  // Accordion states (hidden by default as requested)
+  const [isShippingOpen, setIsShippingOpen] = useState(false);
+  const [isEmailOpen, setIsEmailOpen] = useState(false);
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
   useEffect(() => {
     const adminEmail = localStorage.getItem('adminEmail') || 'admin@evans.com';
@@ -192,17 +197,6 @@ const AdminProfile = () => {
                   <ChevronRight size={16} className="text-gray-400" />
                 </a>
               </div>
-              
-              {/* Mobile Logout Button */}
-              <div className="pt-4 mt-4 border-t border-gray-200 sm:hidden">
-                <button 
-                  onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                >
-                  <LogOut size={18} className="text-red-500" />
-                  Sign out
-                </button>
-              </div>
             </nav>
           </aside>
 
@@ -212,123 +206,151 @@ const AdminProfile = () => {
             {activeTab === 'general' && (
               <div className="space-y-6">
                 
-                {/* Store Preferences */}
+                {/* Store Preferences (Collapsible) */}
                 <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg overflow-hidden">
-                  <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-                    <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
-                      <Truck size={18} className="text-gray-500" />
-                      Shipping Rules
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">Configure global shipping fees and free delivery thresholds.</p>
-                  </div>
-                  <div className="px-4 py-5 sm:p-6">
-                    <form onSubmit={handleSettingsSubmit} className="space-y-4 max-w-md">
-                      <div>
-                        <label className={labelClass}>Standard Shipping Fee (₹)</label>
-                        <input
-                          type="number"
-                          required
-                          min="0"
-                          value={settingsData.shippingFee}
-                          onChange={(e) => setSettingsData({ ...settingsData, shippingFee: Number(e.target.value) })}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Free Shipping Threshold (₹)</label>
-                        <input
-                          type="number"
-                          required
-                          min="0"
-                          value={settingsData.freeShippingThreshold}
-                          onChange={(e) => setSettingsData({ ...settingsData, freeShippingThreshold: Number(e.target.value) })}
-                          className={inputClass}
-                        />
-                        <p className="mt-1.5 text-xs text-gray-500">Orders exceeding this amount qualify for free shipping.</p>
-                      </div>
-                      <div className="pt-2">
-                        <button type="submit" disabled={settingsLoading} className={btnClass}>
-                          {settingsLoading ? 'Saving...' : 'Save Preferences'}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+                  <button 
+                    onClick={() => setIsShippingOpen(!isShippingOpen)}
+                    className="w-full px-4 py-5 sm:px-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div>
+                      <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
+                        <Truck size={18} className="text-gray-500" />
+                        Shipping Rules
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">Configure global shipping fees and free delivery thresholds.</p>
+                    </div>
+                    <ChevronDown size={20} className={`text-gray-400 transition-transform duration-200 ${isShippingOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isShippingOpen && (
+                    <div className="px-4 py-5 sm:p-6 border-t border-gray-200">
+                      <form onSubmit={handleSettingsSubmit} className="space-y-4 max-w-md">
+                        <div>
+                          <label className={labelClass}>Standard Shipping Fee (₹)</label>
+                          <input
+                            type="number"
+                            required
+                            min="0"
+                            value={settingsData.shippingFee}
+                            onChange={(e) => setSettingsData({ ...settingsData, shippingFee: Number(e.target.value) })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Free Shipping Threshold (₹)</label>
+                          <input
+                            type="number"
+                            required
+                            min="0"
+                            value={settingsData.freeShippingThreshold}
+                            onChange={(e) => setSettingsData({ ...settingsData, freeShippingThreshold: Number(e.target.value) })}
+                            className={inputClass}
+                          />
+                          <p className="mt-1.5 text-xs text-gray-500">Orders exceeding this amount qualify for free shipping.</p>
+                        </div>
+                        <div className="pt-2">
+                          <button type="submit" disabled={settingsLoading} className={btnClass}>
+                            {settingsLoading ? 'Saving...' : 'Save Preferences'}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
 
-                {/* Account Details */}
+                {/* Account Details (Collapsible) */}
                 <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg overflow-hidden">
-                  <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-                    <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
-                      <Mail size={18} className="text-gray-500" />
-                      Administrator Email
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">Update the primary email address used for admin login.</p>
-                  </div>
-                  <div className="px-4 py-5 sm:p-6">
-                    <form onSubmit={handleEmailSubmit} className="space-y-4 max-w-md">
-                      <div>
-                        <label className={labelClass}>Email Address</label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div className="pt-2">
-                        <button type="submit" disabled={loading} className={btnClass}>
-                          {loading ? 'Updating...' : 'Update Email'}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+                  <button 
+                    onClick={() => setIsEmailOpen(!isEmailOpen)}
+                    className="w-full px-4 py-5 sm:px-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div>
+                      <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
+                        <Mail size={18} className="text-gray-500" />
+                        Administrator Email
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">Update the primary email address used for admin login.</p>
+                    </div>
+                    <ChevronDown size={20} className={`text-gray-400 transition-transform duration-200 ${isEmailOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isEmailOpen && (
+                    <div className="px-4 py-5 sm:p-6 border-t border-gray-200">
+                      <form onSubmit={handleEmailSubmit} className="space-y-4 max-w-md">
+                        <div>
+                          <label className={labelClass}>Email Address</label>
+                          <input
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div className="pt-2">
+                          <button type="submit" disabled={loading} className={btnClass}>
+                            {loading ? 'Updating...' : 'Update Email'}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
             {activeTab === 'security' && (
               <div className="space-y-6">
+                {/* Security Section (Collapsible) */}
                 <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg overflow-hidden">
-                  <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-                    <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
-                      <Lock size={18} className="text-gray-500" />
-                      Change Password
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">Ensure your account is using a long, random password to stay secure.</p>
-                  </div>
-                  <div className="px-4 py-5 sm:p-6">
-                    <form onSubmit={handlePasswordSubmit} className="space-y-4 max-w-md">
-                      <div>
-                        <label className={labelClass}>New Password</label>
-                        <input
-                          type="password"
-                          required
-                          value={formData.password}
-                          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Confirm New Password</label>
-                        <input
-                          type="password"
-                          required
-                          value={formData.confirmPassword}
-                          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                          className={`${inputClass} ${passwordMismatch ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
-                        />
-                        {passwordMismatch && (
-                          <p className="mt-1.5 text-xs text-red-600">Passwords do not match.</p>
-                        )}
-                      </div>
-                      <div className="pt-2">
-                        <button type="submit" disabled={loading || passwordMismatch || !formData.password} className={btnClass}>
-                          {loading ? 'Updating...' : 'Update Password'}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+                  <button 
+                    onClick={() => setIsPasswordOpen(!isPasswordOpen)}
+                    className="w-full px-4 py-5 sm:px-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div>
+                      <h3 className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
+                        <Lock size={18} className="text-gray-500" />
+                        Change Password
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">Ensure your account is using a long, random password to stay secure.</p>
+                    </div>
+                    <ChevronDown size={20} className={`text-gray-400 transition-transform duration-200 ${isPasswordOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isPasswordOpen && (
+                    <div className="px-4 py-5 sm:p-6 border-t border-gray-200">
+                      <form onSubmit={handlePasswordSubmit} className="space-y-4 max-w-md">
+                        <div>
+                          <label className={labelClass}>New Password</label>
+                          <input
+                            type="password"
+                            required
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Confirm New Password</label>
+                          <input
+                            type="password"
+                            required
+                            value={formData.confirmPassword}
+                            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                            className={`${inputClass} ${passwordMismatch ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
+                          />
+                          {passwordMismatch && (
+                            <p className="mt-1.5 text-xs text-red-600">Passwords do not match.</p>
+                          )}
+                        </div>
+                        <div className="pt-2">
+                          <button type="submit" disabled={loading || passwordMismatch || !formData.password} className={btnClass}>
+                            {loading ? 'Updating...' : 'Update Password'}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
