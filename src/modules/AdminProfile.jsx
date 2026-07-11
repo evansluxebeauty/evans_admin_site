@@ -134,134 +134,144 @@ const AdminProfile = () => {
   const passwordsMatch = formData.password.length > 0 && formData.confirmPassword.length > 0 && formData.password === formData.confirmPassword;
   const passwordMismatch = formData.confirmPassword.length > 0 && formData.password !== formData.confirmPassword;
 
-  const inputClass = "w-full bg-gray-50 border border-gray-200 focus:border-purple-500 rounded-lg px-4 py-3 text-sm font-medium outline-none focus:bg-white transition-all placeholder-gray-400";
-  const labelClass = "text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5 block";
+  const inputClass = "w-full bg-white border border-gray-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10 rounded-xl px-4 py-3.5 text-sm font-medium outline-none transition-all placeholder-gray-400 shadow-sm";
+  const labelClass = "text-[12px] font-bold uppercase tracking-widest text-gray-500 mb-2 block";
 
   const MenuItem = ({ icon, title, subtitle, onClick, hideChevron = false, isDestructive = false }) => (
     <div 
       onClick={onClick} 
-      className="flex items-center justify-between p-4 bg-white hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer border-b border-gray-100 last:border-b-0"
+      className={`group flex items-center justify-between p-5 bg-white hover:bg-gray-50 active:bg-gray-100 transition-all cursor-pointer border-b border-gray-100 last:border-b-0 ${isDestructive ? 'hover:bg-red-50/50' : ''}`}
     >
       <div className="flex items-center gap-4">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isDestructive ? 'bg-red-50 text-red-500' : 'bg-purple-50 text-purple-600'}`}>
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm ${isDestructive ? 'bg-red-50 text-red-500' : 'bg-purple-50 text-purple-600'}`}>
           {icon}
         </div>
         <div>
-          <h4 className={`text-sm font-bold ${isDestructive ? 'text-red-500' : 'text-gray-800'}`}>{title}</h4>
-          {subtitle && <p className="text-[11px] text-gray-500 mt-0.5">{subtitle}</p>}
+          <h4 className={`text-sm font-bold ${isDestructive ? 'text-red-600' : 'text-gray-900'}`}>{title}</h4>
+          {subtitle && <p className="text-[12px] text-gray-500 mt-1 font-medium">{subtitle}</p>}
         </div>
       </div>
-      {!hideChevron && <ChevronRight size={18} className="text-gray-400" />}
+      {!hideChevron && <ChevronRight size={20} className="text-gray-300 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" />}
     </div>
   );
 
   return (
-    <div className="bg-gray-100 h-[100dvh] overflow-hidden flex flex-col pb-16">
+    <div className="bg-[#F8F9FA] min-h-[100dvh] flex flex-col pb-16 font-sans">
       
-      {/* ── Flipkart / Meesho Style Header ── */}
-      <div className="bg-purple-900 pt-8 pb-10 px-6 sm:px-8 flex items-center gap-5 shadow-md relative overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-5 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500 opacity-20 rounded-full blur-xl pointer-events-none" />
-        
-        <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/40 shadow-inner backdrop-blur-sm z-10">
-          <Shield size={36} className="text-white drop-shadow-md" />
-        </div>
-        <div className="z-10">
-          <h1 className="text-2xl font-bold text-white tracking-wide">Evans Luxe</h1>
-          <p className="text-purple-200 text-sm mt-1 opacity-90">{formData.email}</p>
-          <div className="mt-2 inline-block bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-md border border-white/20 text-[10px] text-white uppercase tracking-widest font-bold">
-            Super Admin
+      {/* ── Premium Header ── */}
+      <div className="bg-white pt-12 pb-10 px-6 sm:px-8 shadow-sm relative border-b border-gray-200 z-10">
+        <div className="max-w-3xl mx-auto flex items-center gap-6">
+          <div className="relative">
+            <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-900 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">
+              <Shield size={36} className="text-white transform -rotate-3" />
+            </div>
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 border-4 border-white rounded-full flex items-center justify-center">
+              <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
+            </div>
+          </div>
+          <div>
+            <h1 className="text-2xl font-black text-gray-900 tracking-tight">Evans Luxe Portal</h1>
+            <p className="text-gray-500 text-sm mt-1 font-medium">{formData.email}</p>
+            <div className="mt-3 inline-flex items-center gap-1.5 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+              <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
+              <span className="text-[10px] text-purple-700 uppercase tracking-widest font-bold">System Administrator</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ── Main Menu Container ── */}
-      <div className="max-w-3xl mx-auto px-4 -mt-4 relative z-20 flex-1 overflow-hidden flex flex-col">
+      <div className="max-w-3xl w-full mx-auto px-4 mt-8 relative z-20 flex-1 flex flex-col">
         
-        {/* Quick Links Section */}
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
-          <MenuItem 
-            icon={<ShoppingBag size={20} />} 
-            title="Manage Orders" 
-            subtitle="View, track and fulfill customer orders" 
-            onClick={() => navigate('/orders')} 
-          />
-          <MenuItem 
-            icon={<Package size={20} />} 
-            title="Manage Products" 
-            subtitle="Add, edit or remove store inventory" 
-            onClick={() => navigate('/products')} 
-          />
+        <div className="mb-8">
+          <h2 className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-3 px-2">Store Management</h2>
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+            <MenuItem 
+              icon={<ShoppingBag size={22} strokeWidth={1.5} />} 
+              title="Orders & Fulfillment" 
+              subtitle="View, track and fulfill customer orders" 
+              onClick={() => navigate('/orders')} 
+            />
+            <MenuItem 
+              icon={<Package size={22} strokeWidth={1.5} />} 
+              title="Inventory Management" 
+              subtitle="Add, edit or remove store products" 
+              onClick={() => navigate('/products')} 
+            />
+          </div>
         </div>
 
-        {/* Settings & Account Section */}
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-6">
-          <MenuItem 
-            icon={<Settings size={20} />} 
-            title="Account & Store Settings" 
-            subtitle="Shipping fees, Email, Password" 
-            onClick={() => setIsSettingsModalOpen(true)} 
-          />
-          <MenuItem 
-            icon={<LogOut size={20} />} 
-            title="Sign Out" 
-            hideChevron 
-            isDestructive 
-            onClick={handleLogout} 
-          />
+        <div className="mb-6">
+          <h2 className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-3 px-2">System Preferences</h2>
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+            <MenuItem 
+              icon={<Settings size={22} strokeWidth={1.5} />} 
+              title="Configuration Settings" 
+              subtitle="Manage shipping rules, email, and security" 
+              onClick={() => setIsSettingsModalOpen(true)} 
+            />
+            <MenuItem 
+              icon={<LogOut size={22} strokeWidth={1.5} />} 
+              title="Terminate Session" 
+              hideChevron 
+              isDestructive 
+              onClick={handleLogout} 
+            />
+          </div>
         </div>
         
-        <p className="text-center text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-8">
-          Evans Luxe Admin Portal • v1.0
+        <p className="text-center text-[11px] text-gray-400 font-medium mt-auto py-8">
+          Evans Luxe Enterprise System • Version 1.0.0
         </p>
-
       </div>
 
       {/* ═══════════════════════════════════════
-          SETTINGS MODAL (Shipping, Email, Password)
+          PREMIUM SLIDING PANEL SETTINGS
       ═══════════════════════════════════════ */}
       <AnimatePresence>
         {isSettingsModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
-          >
+          <>
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="bg-gray-50 rounded-2xl w-full max-w-md shadow-2xl relative my-auto max-h-[85vh] flex flex-col overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSettingsModalOpen(false)}
+              className="fixed inset-0 z-[60] bg-gray-900/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: '100%', opacity: 0.5 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0.5 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-[100dvh] w-full md:w-[480px] z-[70] bg-[#F8F9FA] shadow-2xl flex flex-col border-l border-gray-200"
             >
-              {/* Modal Header */}
-              <div className="bg-white p-5 border-b border-gray-200 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-700">
-                    <Settings size={16} />
-                  </div>
-                  <h2 className="text-lg font-bold text-gray-900">Settings</h2>
+              {/* Panel Header */}
+              <div className="bg-white px-6 py-5 border-b border-gray-200 flex items-center justify-between shadow-sm shrink-0">
+                <div>
+                  <h2 className="text-xl font-black text-gray-900">Settings</h2>
+                  <p className="text-[12px] text-gray-500 font-medium mt-1">Manage system configurations</p>
                 </div>
                 <button
                   onClick={() => setIsSettingsModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors"
+                  className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-full transition-colors border border-gray-200 shadow-sm"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </button>
               </div>
 
-              {/* Modal Scrollable Body */}
-              <div className="p-5 overflow-y-auto space-y-6">
+              {/* Panel Scrollable Body */}
+              <div className="p-6 overflow-y-auto flex-1 space-y-8">
                 
                 {/* 1. SHIPPING SETTINGS */}
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                   <div className="flex items-center gap-3 mb-4">
-                     <Truck size={18} className="text-green-600" />
-                     <h3 className="font-bold text-gray-900 text-sm">Store Shipping Rules</h3>
+                <section>
+                   <div className="flex items-center gap-3 mb-4 px-1">
+                     <div className="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center">
+                       <Truck size={16} strokeWidth={2.5} />
+                     </div>
+                     <h3 className="font-bold text-gray-900">Shipping Rules</h3>
                    </div>
                    
-                   <form onSubmit={handleSettingsSubmit} className="space-y-4">
+                   <form onSubmit={handleSettingsSubmit} className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-200 space-y-5">
                      <div>
                        <label className={labelClass}>Standard Shipping Fee (₹)</label>
                        <input
@@ -283,28 +293,35 @@ const AdminProfile = () => {
                          onChange={(e) => setSettingsData({ ...settingsData, freeShippingThreshold: Number(e.target.value) })}
                          className={inputClass}
                        />
-                       <p className="text-[10px] text-gray-400 mt-1 font-medium px-1">Orders above this amount get free shipping.</p>
+                       <p className="text-[11px] text-gray-500 mt-2 font-medium px-1 flex items-center gap-1.5">
+                         <Shield size={12} className="text-green-500"/>
+                         Orders above this amount get free shipping.
+                       </p>
                      </div>
-                     <button
-                       type="submit"
-                       disabled={settingsLoading}
-                       className="w-full bg-green-600 text-white py-3 rounded-lg font-bold uppercase tracking-[0.15em] text-[11px] hover:bg-green-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                     >
-                       {settingsLoading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Save size={15} /> <span>Save Shipping</span> </>}
-                     </button>
+                     <div className="pt-2">
+                       <button
+                         type="submit"
+                         disabled={settingsLoading}
+                         className="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-gray-800 hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                       >
+                         {settingsLoading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Save size={18} /> <span>Save Shipping Rules</span> </>}
+                       </button>
+                     </div>
                    </form>
-                </div>
+                </section>
 
                 {/* 2. EMAIL SETTINGS */}
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                   <div className="flex items-center gap-3 mb-4">
-                     <Mail size={18} className="text-blue-600" />
-                     <h3 className="font-bold text-gray-900 text-sm">Update Login Email</h3>
+                <section>
+                   <div className="flex items-center gap-3 mb-4 px-1">
+                     <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                       <Mail size={16} strokeWidth={2.5} />
+                     </div>
+                     <h3 className="font-bold text-gray-900">Administrator Email</h3>
                    </div>
                    
-                   <form onSubmit={handleEmailSubmit} className="space-y-4">
+                   <form onSubmit={handleEmailSubmit} className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-200 space-y-5">
                      <div>
-                       <label className={labelClass}>Admin Email</label>
+                       <label className={labelClass}>Contact Email</label>
                        <input
                          type="email"
                          required
@@ -313,24 +330,28 @@ const AdminProfile = () => {
                          className={inputClass}
                        />
                      </div>
-                     <button
-                       type="submit"
-                       disabled={loading}
-                       className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold uppercase tracking-[0.15em] text-[11px] hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                     >
-                       {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Save size={15} /> <span>Save Email</span> </>}
-                     </button>
+                     <div className="pt-2">
+                       <button
+                         type="submit"
+                         disabled={loading}
+                         className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-blue-700 hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                       >
+                         {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Save size={18} /> <span>Update Email</span> </>}
+                       </button>
+                     </div>
                    </form>
-                </div>
+                </section>
 
                 {/* 3. PASSWORD SETTINGS */}
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                   <div className="flex items-center gap-3 mb-4">
-                     <Key size={18} className="text-red-600" />
-                     <h3 className="font-bold text-gray-900 text-sm">Security & Password</h3>
+                <section>
+                   <div className="flex items-center gap-3 mb-4 px-1">
+                     <div className="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                       <Key size={16} strokeWidth={2.5} />
+                     </div>
+                     <h3 className="font-bold text-gray-900">Security Credentials</h3>
                    </div>
 
-                   <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                   <form onSubmit={handlePasswordSubmit} className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-200 space-y-5">
                      <div>
                        <label className={labelClass}>New Password</label>
                        <div className="relative">
@@ -338,13 +359,13 @@ const AdminProfile = () => {
                            type={showNewPassword ? 'text' : 'password'}
                            value={formData.password}
                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                           className={`${inputClass} pr-10`}
+                           className={`${inputClass} pr-12`}
                            placeholder="••••••••"
                          />
                          <button
                            type="button"
                            onClick={() => setShowNewPassword(!showNewPassword)}
-                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-700 p-1"
+                           className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
                          >
                            {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                          </button>
@@ -358,32 +379,37 @@ const AdminProfile = () => {
                            type={showConfirmPassword ? 'text' : 'password'}
                            value={formData.confirmPassword}
                            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                           className={`${inputClass} pr-10 ${passwordMismatch ? 'border-red-300 bg-red-50/20' : ''}`}
+                           className={`${inputClass} pr-12 ${passwordMismatch ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10' : ''}`}
                            placeholder="••••••••"
                          />
                          <button
                            type="button"
                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-700 p-1"
+                           className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
                          >
                            {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                          </button>
                        </div>
+                       {passwordMismatch && (
+                         <p className="text-red-500 text-[11px] font-bold mt-2 px-1">Passwords do not match.</p>
+                       )}
                      </div>
 
-                     <button
-                       type="submit"
-                       disabled={loading || passwordMismatch || !formData.password}
-                       className="w-full bg-red-600 text-white py-3 rounded-lg font-bold uppercase tracking-[0.15em] text-[11px] shadow-sm hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                     >
-                       {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Lock size={15} /> <span>Update Password</span> </>}
-                     </button>
+                     <div className="pt-2">
+                       <button
+                         type="submit"
+                         disabled={loading || passwordMismatch || !formData.password}
+                         className="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-red-700 hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                       >
+                         {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <> <Lock size={18} /> <span>Update Password</span> </>}
+                       </button>
+                     </div>
                    </form>
-                </div>
+                </section>
                 
               </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
