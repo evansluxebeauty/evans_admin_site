@@ -141,19 +141,19 @@ const AdminProfile = () => {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center shrink-0">
               <Shield size={18} className="text-white" />
             </div>
-            <span className="text-lg font-semibold text-gray-900 tracking-tight">Evans Luxe Admin</span>
+            <span className="hidden sm:inline-block text-lg font-semibold text-gray-900 tracking-tight">Evans Luxe Admin</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500 hidden sm:inline-block">{formData.email}</span>
             <button 
               onClick={handleLogout}
-              className="text-gray-500 hover:text-gray-700 transition-colors flex items-center gap-1.5 text-sm font-medium"
+              className="hidden sm:flex text-gray-500 hover:text-gray-700 transition-colors items-center gap-1.5 text-sm font-medium"
             >
               <LogOut size={16} />
-              <span className="hidden sm:inline-block">Sign out</span>
+              <span>Sign out</span>
             </button>
           </div>
         </div>
@@ -191,6 +191,17 @@ const AdminProfile = () => {
                   </div>
                   <ChevronRight size={16} className="text-gray-400" />
                 </a>
+              </div>
+              
+              {/* Mobile Logout Button */}
+              <div className="pt-4 mt-4 border-t border-gray-200 sm:hidden">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                >
+                  <LogOut size={18} className="text-red-500" />
+                  Sign out
+                </button>
               </div>
             </nav>
           </aside>
