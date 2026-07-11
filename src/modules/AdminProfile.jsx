@@ -140,7 +140,7 @@ const AdminProfile = () => {
   const btnClass = "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2";
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans">
+    <div className="bg-slate-50 h-[100dvh] overflow-y-auto md:h-auto md:min-h-screen font-sans">
       
       {/* ── Standard Top Navigation ── */}
       <header className="hidden sm:block bg-white border-b border-gray-200 sticky top-0 z-30">
