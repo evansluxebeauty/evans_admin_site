@@ -1,13 +1,13 @@
 'use client';
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useLocation, Link, useNavigate } from '@/router-shim';
 import AdminBottomNav from './AdminBottomNav';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, LayoutDashboard, Package, ShoppingBag, Shield } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 
 /* ─────────────────────────────────────────
-   MOBILE TOP NAV  — logo + brand name only
-   Mirrors the user/frontend module style
+   MOBILE TOP NAV
 ───────────────────────────────────────── */
 const AdminMobileTopNav = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -20,29 +20,30 @@ const AdminMobileTopNav = () => {
 
   return (
     <header
-      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-start px-4 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white shadow-[0_2px_20px_rgba(88,28,135,0.12)] border-b border-purple-50 py-2'
-          : 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-purple-50/60 py-3'
-      }`}
+      className={`md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-start px-4 transition-all duration-300`}
+      style={{
+        background: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.80)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        borderBottom: '1px solid rgba(90,42,108,0.08)',
+        boxShadow: scrolled ? '0 2px 20px rgba(62,29,74,0.10)' : 'none',
+        padding: scrolled ? '8px 16px' : '12px 16px',
+      }}
     >
       <Link to="/dashboard" className="flex items-center gap-3 group">
-        {/* Logo */}
-        <div className="w-9 h-9 overflow-hidden rounded-full border-2 border-purple-100 shadow-md transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 flex-shrink-0">
-          <img
-            src="/images/logo.jpg"
-            alt="Evans Luxe Logo"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Brand name */}
+        <motion.div
+          whileHover={{ scale: 1.08, rotate: 6 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          className="w-9 h-9 overflow-hidden rounded-full flex-shrink-0 shadow-luxury"
+          style={{ border: '2px solid rgba(212,175,55,0.35)' }}
+        >
+          <img src="/images/logo.jpg" alt="Evans Luxe Logo" className="w-full h-full object-cover" />
+        </motion.div>
         <div className="flex flex-col leading-none">
-          <span className="font-serif text-lg font-bold tracking-tight text-purple-900 group-hover:text-purple-700 transition-colors">
-            Evans Luxe
-          </span>
-          <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-red-500">
-            Admin Access
+          <span className="font-serif text-lg font-bold tracking-tight text-purple-900">Evans Luxe</span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.25em] flex items-center gap-1"
+            style={{ color: '#dc2626' }}>
+            <Shield size={8} /> Admin Access
           </span>
         </div>
       </Link>
@@ -51,7 +52,7 @@ const AdminMobileTopNav = () => {
 };
 
 /* ─────────────────────────────────────────
-   DESKTOP TOP NAV — full nav with links
+   DESKTOP TOP NAV — Glassmorphism
 ───────────────────────────────────────── */
 const AdminTopNav = () => {
   const location = useLocation();
@@ -65,9 +66,9 @@ const AdminTopNav = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Inventory', path: '/products' },
-    { name: 'Orders', path: '/orders' },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Inventory', path: '/products', icon: Package },
+    { name: 'Orders', path: '/orders', icon: ShoppingBag },
   ];
 
   const handleLogout = () => {
@@ -77,48 +78,64 @@ const AdminTopNav = () => {
   };
 
   return (
-    <header
-      className={`hidden md:flex fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-white shadow-[0_2px_20px_rgba(88,28,135,0.12)] border-b border-purple-50 py-3'
-          : 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-purple-50/60 py-5'
-      }`}
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="hidden md:flex fixed top-0 w-full z-50 transition-all duration-500"
+      style={{
+        background: scrolled ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.78)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        borderBottom: scrolled ? '1px solid rgba(90,42,108,0.10)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 2px 20px rgba(62,29,74,0.10)' : 'none',
+        padding: scrolled ? '10px 0' : '18px 0',
+      }}
     >
       <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">
         {/* Logo + Brand */}
         <Link to="/dashboard" className="flex items-center space-x-3 group whitespace-nowrap">
-          <div className="w-10 h-10 overflow-hidden rounded-full border-2 border-purple-100 shadow-md transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+          <motion.div
+            whileHover={{ scale: 1.08, rotate: 6 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+            className="w-10 h-10 overflow-hidden rounded-full shadow-luxury"
+            style={{ border: '2px solid rgba(212,175,55,0.35)' }}
+          >
             <img src="/images/logo.jpg" alt="Evans Luxe Logo" className="w-full h-full object-cover" />
-          </div>
+          </motion.div>
           <div className="flex flex-col leading-none">
             <span className="font-serif text-xl font-bold tracking-tight text-purple-900 group-hover:text-purple-700 transition-colors">
               Evans Luxe
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-red-500">
-              Admin Access
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] flex items-center gap-1"
+              style={{ color: '#dc2626' }}>
+              <Shield size={9} /> Admin Access
             </span>
           </div>
         </Link>
 
-        {/* Main Links */}
-        <nav className="flex items-center space-x-10">
+        {/* Nav Links */}
+        <nav className="flex items-center space-x-8">
           {navLinks.map((link) => {
-            const isActive =
-              location.pathname === link.path ||
+            const isActive = location.pathname === link.path ||
               (link.path !== '/dashboard' && location.pathname.startsWith(link.path));
+            const Icon = link.icon;
             return (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`relative font-bold text-base transition-colors pb-1 group ${
-                  isActive ? 'text-purple-900' : 'text-gray-500 hover:text-purple-700'
+                className={`relative flex items-center gap-2 font-semibold text-sm transition-colors pb-1.5 group min-h-[48px] ${
+                  isActive ? 'text-purple-900' : 'text-gray-500 hover:text-purple-800'
                 }`}
               >
+                <Icon size={15} strokeWidth={isActive ? 2.5 : 2} />
                 {link.name}
-                <span
-                  className={`absolute bottom-0 left-0 h-0.5 bg-purple-700 rounded-full transition-all duration-300 ${
-                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
+                <motion.span
+                  className="absolute bottom-0 left-0 h-0.5 rounded-full"
+                  style={{ background: 'linear-gradient(90deg, #D4AF37, #edc757)' }}
+                  initial={false}
+                  animate={{ width: isActive ? '100%' : '0%' }}
+                  transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
                 />
               </Link>
             );
@@ -126,34 +143,33 @@ const AdminTopNav = () => {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-3">
           <Link
             to="/profile"
-            className="flex items-center space-x-2 text-gray-600 hover:text-purple-700 transition-colors group"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-purple-50 text-purple-700 hover:bg-purple-100 hover:text-purple-900 transition-all min-h-0 min-w-0"
+            title="HQ Profile"
           >
-            <div className="w-9 h-9 rounded-full bg-beige-100 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
-              <User size={20} strokeWidth={2} />
-            </div>
-            <span className="text-sm font-semibold text-gray-600 group-hover:text-purple-700 transition-colors">
-              HQ
-            </span>
+            <motion.div whileHover={{ scale: 1.15 }} transition={{ type: 'spring', stiffness: 400, damping: 15 }}>
+              <User size={18} strokeWidth={2} />
+            </motion.div>
           </Link>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.93 }}
             onClick={handleLogout}
-            className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors group"
+            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider text-red-500 bg-red-50 hover:bg-red-100 hover:text-red-700 transition-all min-h-0 min-w-0"
           >
-            <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors text-red-500">
-              <LogOut size={16} strokeWidth={2} />
-            </div>
-          </button>
+            <LogOut size={14} strokeWidth={2.5} />
+            <span>Logout</span>
+          </motion.button>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
 /* ─────────────────────────────────────────
-   ADMIN LAYOUT
+   ADMIN LAYOUT — Root wrapper
 ───────────────────────────────────────── */
 const AdminLayout = ({ children }) => {
   const location = useLocation();
@@ -176,8 +192,12 @@ const AdminLayout = ({ children }) => {
 
   if (checking) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-beige-50">
-        <div className="w-10 h-10 border-4 border-purple-900 border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex items-center justify-center min-h-screen"
+        style={{ background: 'linear-gradient(160deg, #1a0a22, #3e1d4a)' }}>
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 rounded-full border-4 border-gold-400 border-t-transparent animate-spin" />
+          <p className="text-white/50 text-xs uppercase tracking-widest font-bold">Authenticating</p>
+        </div>
       </div>
     );
   }
@@ -191,42 +211,57 @@ const AdminLayout = ({ children }) => {
         toastOptions={{
           duration: 3000,
           style: {
-            background: '#5A2A6C',
+            background: 'linear-gradient(135deg, #3e1d4a, #5A2A6C)',
             color: '#fff',
             borderRadius: '16px',
-            marginTop: '60px',
+            marginTop: '64px',
+            boxShadow: '0 8px 32px rgba(62,29,74,0.3)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            fontWeight: '600',
+            fontSize: '13px',
           },
         }}
       />
 
-      {/* Mobile top navbar — logo + name only */}
       {!isLogin && <AdminMobileTopNav />}
-
-      {/* Desktop top navbar — full links */}
       {!isLogin && <AdminTopNav />}
 
-      {/* Background blobs */}
-      <div className="fixed top-[10%] left-[5%] w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none -z-10 animate-pulse" />
-      <div className="fixed top-[40%] right-[10%] w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none -z-10" />
+      {/* Ambient background orbs */}
+      {!isLogin && (
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div className="orb absolute w-[500px] h-[500px] bg-purple-100 top-[-8%] left-[-8%] opacity-40" />
+          <div className="orb absolute w-[400px] h-[400px] bg-gold-100 top-[45%] right-[-6%] opacity-30"
+            style={{ animationDelay: '4s' }} />
+        </div>
+      )}
 
-      {/* Main content — pt-16 on mobile (clears mobile top bar), pt-28 on desktop */}
       <main
-        className={`flex-1 w-full max-w-7xl mx-auto relative px-6 md:px-12 ${
-          !isLogin ? 'pt-20 md:pt-28 pb-28 md:pb-8' : ''
+        className={`flex-1 w-full max-w-7xl mx-auto relative px-4 md:px-12 ${
+          !isLogin ? 'pt-20 md:pt-28 pb-28 md:pb-10' : ''
         }`}
       >
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-20">
-              <div className="w-10 h-10 border-4 border-purple-900 border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-10 h-10 rounded-full border-4 border-purple-900 border-t-transparent animate-spin" />
             </div>
           }
         >
-          {children}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+              className="w-full h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </Suspense>
       </main>
 
-      {/* Mobile bottom nav */}
       {!isLogin && <AdminBottomNav />}
     </div>
   );
