@@ -44,83 +44,111 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-beige-50 flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-purple-950 flex flex-col items-center justify-center p-6 relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #1a0a22 0%, #2d0e3d 60%, #3e1d4a 100%)' }}>
 
-      {/* Decorative Background Elements */}
-      <div className="absolute top-[10%] left-[5%] w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none"></div>
-      <div className="absolute top-[40%] right-[10%] w-80 h-80 bg-gold-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none"></div>
+      {/* Elegant Ambient Orbs */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="orb absolute w-[500px] h-[500px] bg-purple-600/10 top-[-10%] left-[-10%] opacity-40 blur-[100px]" />
+        <div className="orb absolute w-[400px] h-[400px] bg-gold-400/5 bottom-[-8%] right-[-8%] opacity-30 blur-[90px]" style={{ animationDelay: '4s' }} />
+      </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 25 }}
         className="w-full max-w-sm relative z-10"
       >
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white border border-beige-100 mb-6 shadow-sm overflow-hidden">
+        {/* Logo and Brand */}
+        <div className="text-center mb-8">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white border border-gold-400/20 mb-4 shadow-luxury overflow-hidden"
+            style={{ border: '2px solid rgba(212,175,55,0.3)' }}
+          >
             <img src="/images/logo.jpg" alt="Evans Luxe Logo" className="w-full h-full object-cover" />
-          </div>
-          <h1 className="text-2xl font-serif text-purple-900 mb-2 font-bold">Admin Portal</h1>
-          <p className="text-gray-500 text-sm tracking-wide">Evans Luxe Beauty System Access</p>
+          </motion.div>
+          <h1 className="text-2xl font-serif text-white font-bold leading-none mb-2">Evans Luxe</h1>
+          <p className="text-[10px] font-black text-gold-400 uppercase tracking-[0.3em] flex items-center justify-center gap-1.5">
+            <Shield size={10} className="text-red-500 animate-pulse" /> Security Portal
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-card border border-beige-100">
-          <form onSubmit={handleLogin} className="space-y-6">
+        {/* Glass Dark Auth Container */}
+        <div className="glass-dark p-6 rounded-[2.5rem] relative overflow-hidden">
+          {/* Subtle gold line on top */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Admin Email</label>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-300 uppercase tracking-widest block pl-1">Admin Email</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-4.5 w-4.5 text-gray-400" />
                 </div>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-beige-50 border border-beige-200 rounded-2xl py-3 pl-12 pr-4 text-purple-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-700/50 focus:border-transparent transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-11 pr-4 text-xs font-semibold text-white placeholder-white/30 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all shadow-inner"
                   placeholder="admin@evans.com"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Master Password</label>
+            <div className="space-y-1.5">
+              <label className="text-[9px] font-black text-gray-300 uppercase tracking-widest block pl-1">Master Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-4.5 w-4.5 text-gray-400" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-beige-50 border border-beige-200 rounded-2xl py-3 pl-12 pr-12 text-purple-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-700/50 focus:border-transparent transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-11 pr-11 text-xs font-semibold text-white placeholder-white/30 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all shadow-inner"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-purple-700 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/40 hover:text-gold-400 transition-colors min-h-0 min-w-0"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
 
-            <button
+            {/* Premium Gold Login Trigger */}
+            <motion.button
+              whileHover={{ scale: 1.015, y: -1 }}
+              whileTap={{ scale: 0.985 }}
               type="submit"
               disabled={loading}
-              className="w-full group bg-purple-900 hover:bg-purple-800 text-white font-semibold py-3.5 px-4 rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+              className="w-full py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed mt-6 relative overflow-hidden group min-h-0"
+              style={{
+                background: 'linear-gradient(135deg, #D4AF37, #edc757)',
+                color: '#1a0a22',
+                boxShadow: '0 4px 20px rgba(212, 175, 55, 0.25)',
+              }}
             >
-              <span>{loading ? 'Authenticating...' : 'Secure Login'}</span>
-              {!loading && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
-            </button>
+              <div className="absolute inset-0 bg-white/30 group-hover:translate-x-full transition-transform duration-700 ease-in-out -translate-x-full skew-x-12" />
+              {loading ? (
+                <Loader2 className="animate-spin text-purple-950" size={16} />
+              ) : (
+                <>
+                  <span>{loading ? 'Authenticating...' : 'Secure Access'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-purple-950 group-hover:translate-x-1 transition-transform" strokeWidth={2.5} />
+                </>
+              )}
+            </motion.button>
           </form>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-8">
-          Unauthorized access is strictly prohibited.<br />All actions are logged securely.
+        <p className="text-center text-[9px] font-black uppercase tracking-widest text-white/30 mt-6 leading-relaxed">
+          Unauthorized access is strictly monitored.<br />All sessions logged on HQ server.
         </p>
 
       </motion.div>
