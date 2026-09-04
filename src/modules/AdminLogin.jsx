@@ -2,7 +2,7 @@
 import API_BASE_URL from '@/config/api';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Lock, Mail, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from '@/router-shim';
 import { useAuthStore } from '../store/useAuthStore';
