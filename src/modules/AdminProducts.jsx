@@ -42,10 +42,24 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     setLoading(true);
     const token = localStorage.getItem('adminToken');
+    if (!token) {
+      setLoading(false);
+      window.location.href = '/login';
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/products/admin`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+
+      if (res.status === 401) {
+        localStorage.removeItem('adminToken');
+        toast.error('Session expired. Please log in again.');
+        window.location.href = '/login';
+        return;
+      }
+
       const data = await res.json();
       if (res.ok) setProducts(data);
     } catch {

@@ -19,12 +19,26 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     const token = localStorage.getItem('adminToken');
+    if (!token) {
+      setLoading(false);
+      window.location.href = '/login';
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/api/orders/admin?pageNumber=${page}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
+
+      if (response.status === 401) {
+        localStorage.removeItem('adminToken');
+        toast.error('Session expired. Please log in again.');
+        window.location.href = '/login';
+        return;
+      }
+
       const data = await response.json();
       if (response.ok) {
         setOrders(data.orders);

@@ -23,6 +23,12 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     const token = localStorage.getItem('adminToken');
+    if (!token) {
+      setLoading(false);
+      window.location.href = '/login';
+      return;
+    }
+
     try {
       const [pRes, oRes] = await Promise.all([
         fetch(`${API_BASE_URL}/api/products/admin`, {
@@ -32,6 +38,13 @@ const AdminDashboard = () => {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);
+
+      if (pRes.status === 401 || oRes.status === 401) {
+        localStorage.removeItem('adminToken');
+        toast.error('Session expired. Please log in again.');
+        window.location.href = '/login';
+        return;
+      }
       
       const products = await pRes.json();
       const ordersData = await oRes.json();
@@ -45,8 +58,6 @@ const AdminDashboard = () => {
           outOfStock: products.filter(p => p.stock === 0).length,
           lowStock: products.filter(p => p.stock > 0 && p.stock < 10).length
         });
-      } else if (pRes.status === 401 || oRes.status === 401) {
-        console.warn('Backend authentication failed (expected in bypass mode)');
       } else {
         toast.error(products.message || ordersData.message || 'Failed to load data');
       }
