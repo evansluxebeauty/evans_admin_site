@@ -146,9 +146,9 @@ const AdminProfile = () => {
     <div className="min-h-screen bg-gray-50/50 pb-12">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-lg">
+            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-lg shrink-0">
               <Shield size={24} />
             </div>
             <div>
@@ -158,10 +158,10 @@ const AdminProfile = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors whitespace-nowrap shrink-0"
           >
-            <LogOut size={16} />
-            Sign Out
+            <LogOut size={16} className="shrink-0" />
+            <span className="whitespace-nowrap">Sign Out</span>
           </button>
         </div>
       </div>
